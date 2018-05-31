@@ -11,6 +11,7 @@ class App extends Component {
         }
         this.submitHandler = this.submitHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
     }
 
     submitHandler = (event) => {
@@ -18,7 +19,7 @@ class App extends Component {
         let { todoItem, currentInputValue } = this.state
         //This pushes the text with the input field into an array thats in state.
         todoItem.push(currentInputValue);
-
+        //setting state to the new values from what is in the input feild when the enter button is pressed
         this.setState({
             //updates item in an array with whatever was within the input field when enter was pressed
             todoItem: todoItem,
@@ -27,18 +28,33 @@ class App extends Component {
         })
         console.log(this.state.todoItem + " HERE!!");
     };
-
+    //handle change function allows the state to be updated with the exact value of what is being entered
+    //if a user starts to type Ashley, the value is updated at A, then s, then,h and so on
     handleChange = (event) => {
         this.setState({
+            //event is a complicated object that has many properties to it
+            //.target and .value
             currentInputValue: event.target.value
         })
         console.log(this.state.currentInputValue + " HERE");
     }
 
+    removeTodo = (item) => {
+        this.state.todoItem.splice(item, 1);
+        this.setState({
+            todoItem: this.state.todoItem
+        });
+        console.log("Being deleted");
+    }
+
+
   render() {
     let listItems = this.state.todoItem.map(listItem => {
         return(
             <li key={listItem}
+                onClick={() => {
+                    this.removeTodo(this.state.todoItem)}
+                }
                 className="list-group-item">{listItem}</li>
         )
     });
@@ -65,7 +81,7 @@ class App extends Component {
 
                 <div>
                     <ul className="list-group list-group-flush">
-                        {listItems}
+                        {listItems }
                     </ul>
                 </div>
             </div>
