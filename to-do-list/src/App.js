@@ -6,30 +6,47 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            todoItem: []
+            todoItem: [],
+            currentInputValue: ''
         }
-        this.addToDoItemHandler = this.addToDoItemHandler.bind(this)
+        this.submitHandler = this.submitHandler.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    addToDoItemHandler = (event) => {
-        console.log(event.target.value);
+    submitHandler = (event) => {
+        let { todoItem, currentInputValue } = this.state
+        todoItem.push(currentInputValue);
+
+        this.setState({
+            todoItem: todoItem
+        })
+        console.log(this.state.todoItem + " HERE!!");
+    };
+
+    handleChange = (event) => {
+        this.setState({
+            currentInputValue: event.target.value
+        })
+        console.log(this.state.currentInputValue + " HERE");
     }
 
   render() {
+      
     return (
         <AUX>
             <div>
                 <h1>My To Do List</h1>
                 <div className="input-group mb-3">
                     <input type="text"
+                        onChange={this.handleChange}
                         className="form-control"
                         placeholder="Enter your todo item here"
                         aria-label="Recipient's username"
-                        aria-describedby="basic-addon2" />
+                        aria-describedby="basic-addon2"
+                    />
                 <div className="input-group-append">
-                    <input
-                        className="btn btn-outline-secondary"
-                        onClick={this.addToDoItemHandler}
+                    <button className="btn btn-outline-secondary"
+                        onClick={this.submitHandler}
                         type="button">Enter
                     </button>
                 </div>
@@ -37,11 +54,7 @@ class App extends Component {
 
                 <div>
                     <ul className="list-group list-group-flush">
-                        <li className="list-group-item">Cras justo odio</li>
-                        <li className="list-group-item">Dapibus ac facilisis in</li>
-                        <li className="list-group-item">Morbi leo risus</li>
-                        <li className="list-group-item">Porta ac consectetur ac</li>
-                        <li className="list-group-item">Vestibulum at eros</li>
+                        <li className="list-group-item">{listItems}</li>
                     </ul>
                 </div>
             </div>
