@@ -14,11 +14,16 @@ class App extends Component {
     }
 
     submitHandler = (event) => {
+        //Deconstructs state; makes a copy of state.
         let { todoItem, currentInputValue } = this.state
+        //This pushes the text with the input field into an array thats in state.
         todoItem.push(currentInputValue);
 
         this.setState({
-            todoItem: todoItem
+            //updates item in an array with whatever was within the input field when enter was pressed
+            todoItem: todoItem,
+            //updating the input field to be blank so the user can add another todo item
+            currentInputValue: ''
         })
         console.log(this.state.todoItem + " HERE!!");
     };
@@ -31,7 +36,12 @@ class App extends Component {
     }
 
   render() {
-      
+    let listItems = this.state.todoItem.map(listItem => {
+        return(
+            <li key={listItem}
+                className="list-group-item">{listItem}</li>
+        )
+    });
     return (
         <AUX>
             <div>
@@ -43,6 +53,7 @@ class App extends Component {
                         placeholder="Enter your todo item here"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
+                        value={this.state.currentInputValue}
                     />
                 <div className="input-group-append">
                     <button className="btn btn-outline-secondary"
@@ -54,7 +65,7 @@ class App extends Component {
 
                 <div>
                     <ul className="list-group list-group-flush">
-                        <li className="list-group-item">{listItems}</li>
+                        {listItems}
                     </ul>
                 </div>
             </div>
